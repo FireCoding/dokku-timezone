@@ -17,3 +17,7 @@ dokku plugin:install https://github.com/leominov/dokku-timezone.git dokku-timezo
 This plugin provides hooks:
 
 * `pre-build-buildpack`
+
+## Thanks
+
+* udzura who made the initial plugin (https://github.com/udzura).
