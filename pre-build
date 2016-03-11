@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
+source "$PLUGIN_CORE_AVAILABLE_PATH/common/functions"
+
+timezone_pre_build_buildpack() {
+  local APP="$1"; local IMAGE="dokku/$APP"
+
+  dokku_log_info1 "Setting up timezone..."
+
+  if test -z "$TIMEZONE"; then
+    TIMEZONE=$( cat /etc/timezone )
+  fi
+
+  id=$(docker run $DOKKU_GLOBAL_RUN_ARGS -d $IMAGE /bin/bash -c "ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime")
+  test $(docker wait $id) -eq 0
+  docker commit $id $IMAGE > /dev/null
+  
+  dokku_log_verbose "Timezone is set to $TIMEZONE"
+}
+
+timezone_pre_build_buildpack "$@"

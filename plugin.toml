@@ -1,0 +1,4 @@
+[plugin]
+description = "set timezone on buildstep image"
+version = "1.0.0"
+[plugin.config]
